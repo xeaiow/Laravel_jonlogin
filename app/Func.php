@@ -1,0 +1,14 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Func extends Model
+{
+    protected $table = 'function';
+
+    protected $fillable = [
+        'id', 'title'
+    ];
+}
