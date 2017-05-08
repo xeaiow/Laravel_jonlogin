@@ -14,7 +14,14 @@
             QQ：<input type="text" name="qq"><br/>
             微信：<input type="text" name="wechat"><br/>
             LINE：<input type="text" name="line"><br/>
-            群組：<input type="text" name="group"><br/>
+            群組：
+            <select name="group">
+                @foreach ($group as $groups)
+
+                    <option value="{{ $groups->auth }}">{{ $groups->title }}</option>
+
+                @endforeach
+            </select><br />
             <input type="submit" value="確定">
         </form>
 

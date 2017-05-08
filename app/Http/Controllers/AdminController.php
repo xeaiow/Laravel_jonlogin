@@ -22,7 +22,8 @@ class AdminController extends Controller
     // 新增管理員帳號頁面
     public function addMember ()
     {
-        return view('admin.new_member');
+        $group = Group::all();
+        return view('admin.new_member')->with('group', $group);
     }
 
     // 新增管理員帳號
@@ -59,12 +60,12 @@ class AdminController extends Controller
     // 編輯管理員頁面
     public function edit(Request $request)
     {
+        $data = array(
+            'member' => Member::find($request->id),
+            'group' => Group::all(),
+        );
 
-        $member = Member::find($request->id);
-        if (!$member) {
-            return "not found";
-        }
-        return view('admin.edit')->with('info', $member);
+        return view('admin.edit')->with('info', $data);
     }
 
     // 編輯管理員
@@ -163,6 +164,7 @@ class AdminController extends Controller
         $group->manager = !empty( $request->manager ) ? 1:0;
         $group->member = !empty( $request->member ) ? 1:0;
         $group->game_server = !empty( $request->game_server ) ? 1:0;
+        $group->firewall = !empty( $request->firewall ) ? 1:0;
         $group->finance = !empty( $request->finance ) ? 1:0;
         $group->server_auth = !empty( $request->server_auth ) ? 1:0;
         $group->save();
