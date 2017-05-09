@@ -5,18 +5,53 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddMemberRequest;
 use App\Http\Requests\AddFunctionRequest;
 use App\Http\Requests\EditFunctionRequest;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Member;
 use App\Func;
 use App\Group;
+use App\User;
+use Input;
+use Auth;
+use Redirect;
+use Session;
 
 class AdminController extends Controller
 {
 
-    // 管理首頁
     public function index()
     {
-        return view('admin.index');
+
+    }
+
+    // 登入
+    public function loginHandle ()
+    {
+
+        $data = User::all();
+
+        $userdata = array(
+            'username' => Input::get('username'),
+            'password' => Input::get('password')
+        );
+        // doing login.
+        if (Auth::validate($userdata)) {
+            if (Auth::attempt($userdata)) {
+                return Redirect::intended('/admin/lists');
+            }
+        }
+        else {
+            // if any error send back with message.
+            Session::flash('error', 'Something went wrong');
+            return Redirect::to('/');
+        }
+    }
+
+    // 登出
+    public function logout ()
+    {
+        Auth::logout();
+        return Redirect::to('/');
     }
 
     // 新增管理員帳號頁面

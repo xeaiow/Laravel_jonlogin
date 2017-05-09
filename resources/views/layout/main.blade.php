@@ -13,6 +13,7 @@
             <li><a href="{{ url('/user/create') }}">新增使用者</a></li>
             <li><a href="{{ url('/user/lists') }}">使用者列表</a></li>
             <li><a href="#">登入清單</a></li>
+            <li><a href="{{ url('/logout') }}">登出</a></li>
         </ul>
 
         @yield('content')

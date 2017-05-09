@@ -24,8 +24,4 @@
             <input type="submit" value="確定">
         </form>
 
-
-
-
-
     @endsection

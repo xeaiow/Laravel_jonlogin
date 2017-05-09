@@ -3,6 +3,7 @@
 
     @section('content')
 
+        
         <table border="1">
             <tr>
                 <th>id</th>
