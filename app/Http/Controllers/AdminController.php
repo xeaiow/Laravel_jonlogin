@@ -52,8 +52,11 @@ class AdminController extends Controller
     public function lists ()
     {
 
-        $member = Member::all();
-        return view('admin.lists')->with('member', $member);
+        $data = array(
+            'member' => Member::join('group', 'group.id', '=', 'member.id')->get(),
+            'group' => Group::all()
+        );
+        return view('admin.lists')->with('info', $data);
     }
 
 
@@ -85,7 +88,7 @@ class AdminController extends Controller
         $member->group = $request->group;
         $member->save();
 
-        return redirect()->back();
+        return redirect('admin/lists');
     }
 
     // 刪除管理員

@@ -11,4 +11,5 @@ class Member extends Model
     protected $fillable = [
         'username', 'password', 'firstname', 'email', 'phone', 'qq_id', 'wechat_id', 'line_id', 'group', 'updated_at', 'created_at'
     ];
+    
 }
