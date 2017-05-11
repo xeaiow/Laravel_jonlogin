@@ -41,14 +41,26 @@ class AdminController extends Controller
             if ( Auth::attempt($userdata) ) {
 
                 // 給予新的 token
-                $saveToken = User::where('username', '=', Input::get('username'))->get();
-                $createToken = $saveToken->remember_token = "123456";
+                // $saveToken = User::where('username', '=', Input::get('username'))->get();
+                // $createToken = $saveToken->remember_token = "123456";
 
                 // 登入紀錄到 session table
-                $newSession = [
-                    'username' => Input::get('username'),
-                ];
-                Sessions::create($newSession);
+                $isLogin = Sessions::where('username', '=', Input::get('username'))->count();
+
+                if ($isLogin == 0) {
+
+                    $newSession = [
+                        'username' => Input::get('username'),
+                    ];
+                    Sessions::create($newSession);
+                }
+                else{
+
+                    $newLoginSessions = Sessions::where('username', '=', Input::get('username'))->first();
+                    $newLoginSessions->updated_at = date("Y-m-d H:i:s");
+                    $newLoginSessions->save();
+                }
+
 
                 return Redirect::intended('/admin/lists');
             }
@@ -63,7 +75,7 @@ class AdminController extends Controller
     // 登入清單
     public function loginLists ()
     {
-        $record = Sessions::select('id', 'username', 'created_at')->groupBy('username')->get();
+        $record = Sessions::select('id', 'username', 'updated_at')->orderBy('updated_at', 'DESC')->get();
         return view('admin.record')->with('record', $record);
     }
 
@@ -107,7 +119,6 @@ class AdminController extends Controller
     public function lists ()
     {
 
-
         $data = Member::all();
         $data = Member::select('member.*', 'group.title')->join('group', 'member.group', '=', 'group.auth')->get();
 
@@ -133,7 +144,6 @@ class AdminController extends Controller
         $member = Member::find($request->member_id);
 
         $member->username = $request->username;
-        $member->password = bcrypt($request->password);
         $member->firstname = $request->firstname;
         $member->email = $request->email;
         $member->phone = $request->phone;

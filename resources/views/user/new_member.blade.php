@@ -17,4 +17,11 @@
             <input type="submit" value="確定">
         </form>
 
+        {{ $errors->first('username') }}<br/>
+        {{ $errors->first('password') }}<br/>
+        {{ $errors->first('firstname') }}<br/>
+        {{ $errors->first('email') }}<br/>
+        {{ $errors->first('phone') }}<br/>
+        {{ $errors->first('point') }}<br/>
+
     @endsection

@@ -29,7 +29,7 @@ class AddUserRequest extends FormRequest
             'firstname' => 'required',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required',
-            'point' => 'required',
+            'point' => 'required'
         ];
     }
 
@@ -41,7 +41,7 @@ class AddUserRequest extends FormRequest
             'firstname' => '姓名',
             'email' => 'E-mail',
             'phone' => '手機',
-            'point' => '點數',
+            'point' => '點數'
         ];
     }
 
@@ -49,8 +49,15 @@ class AddUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => '請填寫所有欄位！',
-            'email.unique' => '此信箱已被註冊'
+            'username.required' => '帳號未填寫',
+            'username.unique' => '帳號已註冊過',
+            'password.required' => '密碼未填寫',
+            'firstname.required' => '姓名未填寫',
+            'email.required' => '信箱未填寫',
+            'email.email' => '請輸入正確信箱格式',
+            'email.unique' => '信箱已註冊過',
+            'phone.required' => '手機未填寫',
+            'point.required' => '點數位填寫'
         ];
     }
 

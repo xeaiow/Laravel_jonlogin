@@ -15,7 +15,7 @@
                 <tr>
                     <td>{{ $records->id }}</td>
                     <td>{{ $records->username }}</td>
-                    <td>{{ $records->created_at }}</td>
+                    <td>{{ $records->updated_at }}</td>
                 </tr>
 
             @endforeach
