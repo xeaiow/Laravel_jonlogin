@@ -3,7 +3,6 @@
 
     @section('content')
 
-
         <form action="" method="post">
             {{ csrf_field() }}
             帳號：<input type="text" name="username"><br/>
@@ -24,5 +23,12 @@
             </select><br />
             <input type="submit" value="確定">
         </form>
+
+        {{ $errors->first('username') }}<br/>
+        {{ $errors->first('password') }}<br/>
+        {{ $errors->first('firstname') }}<br/>
+        {{ $errors->first('email') }}<br/>
+        {{ $errors->first('phone') }}<br/>
+        {{ $errors->first('group') }}<br/>
 
     @endsection

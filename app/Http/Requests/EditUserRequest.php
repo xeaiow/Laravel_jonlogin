@@ -16,7 +16,6 @@ class EditUserRequest extends FormRequest
     {
         return [
             'username' => 'required',
-            'password' => 'required',
             'firstname' => 'required',
             'email' => 'required',
             'phone' => 'required',
@@ -28,7 +27,6 @@ class EditUserRequest extends FormRequest
     {
         return [
             'username' => '帳號',
-            'password' => '密碼',
             'firstname' => '姓名',
             'email' => '信箱',
             'phone' => '手機',
@@ -41,7 +39,6 @@ class EditUserRequest extends FormRequest
     {
         return [
             'username.required' => '帳號未填寫',
-            'password.required' => '密碼未填寫',
             'firstname.required' => '姓名未填寫',
             'email.required' => '信箱未填寫',
             'phone.required' => '手機未填寫',

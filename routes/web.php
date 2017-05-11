@@ -1,5 +1,5 @@
 <?php
-
+    Auth::routes();
     // Route::get('/', 'adminController@index');
     Route::get('/', function() {
         return View::make('admin.index');
@@ -13,13 +13,14 @@
         Route::get('/create', 'adminController@addMember');
         Route::get('/lists', 'adminController@lists');
         Route::get('/{id}/edit', 'adminController@edit')->where('id', '[0-9]+');
+        Route::get('/record', 'adminController@loginLists');
         Route::get('/{member_id}/remove', 'adminController@removeHandle')->where('member_id', '[0-9]+');
         Route::post('/create', 'adminController@addMemberHandle');
         Route::post('/{member_id}/edit', 'adminController@editHandle')->where('member_id', '[0-9]+');
     });
 
     // Gourps
-    Route::group(['prefix' => 'admin/groups'], function () {
+    Route::group(['prefix' => 'admin/groups', 'middleware' => 'auth'], function () {
         Route::get('/', 'adminController@groups');
         Route::get('/create', 'adminController@addGroups');
         Route::get('/lists', 'adminController@groupLists');
@@ -30,7 +31,7 @@
     });
 
     // Users
-    Route::group(['prefix' => '/user'], function () {
+    Route::group(['prefix' => '/user', 'middleware' => 'auth'], function () {
         Route::get('/create', 'userController@addMember');
         Route::get('/lists', 'userController@lists');
         Route::get('/{id}/deposit', 'userController@deposit')->where('id', '[0-9]+');

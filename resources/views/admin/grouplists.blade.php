@@ -3,11 +3,6 @@
 
     @section('content')
 
-        <ul>
-            <li><a href="{{ url('admin/groups/create') }}">新增群組</a></li>
-            <li><a href="{{ url('admin/groups/lists') }}">群組列表</a></li>
-        </ul>
-
         <table border="1">
             <tr>
                 <th>id</th>

@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddMemberRequest;
 use App\Http\Requests\AddFunctionRequest;
 use App\Http\Requests\EditFunctionRequest;
+use App\Http\Requests\EditMemberRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Member;
 use App\Func;
 use App\Group;
 use App\User;
+use App\Sessions;
 use Input;
 use Auth;
 use Redirect;
@@ -28,23 +30,41 @@ class AdminController extends Controller
     public function loginHandle ()
     {
 
-        $data = User::all();
-
         $userdata = array(
             'username' => Input::get('username'),
-            'password' => Input::get('password')
+            'password' => Input::get('password'),
+
         );
-        // doing login.
-        if (Auth::validate($userdata)) {
-            if (Auth::attempt($userdata)) {
+
+        if ( Auth::validate($userdata) ) {
+
+            if ( Auth::attempt($userdata) ) {
+
+                // 給予新的 token
+                $saveToken = User::where('username', '=', Input::get('username'))->get();
+                $createToken = $saveToken->remember_token = "123456";
+
+                // 登入紀錄到 session table
+                $newSession = [
+                    'username' => Input::get('username'),
+                ];
+                Sessions::create($newSession);
+
                 return Redirect::intended('/admin/lists');
             }
         }
         else {
-            // if any error send back with message.
-            Session::flash('error', 'Something went wrong');
+
+            Session::flash('error', '帳號或密碼錯誤');
             return Redirect::to('/');
         }
+    }
+
+    // 登入清單
+    public function loginLists ()
+    {
+        $record = Sessions::select('id', 'username', 'created_at')->groupBy('username')->get();
+        return view('admin.record')->with('record', $record);
     }
 
     // 登出
@@ -67,7 +87,7 @@ class AdminController extends Controller
 
         $new = [
             'username' => $request->username,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
             'firstname' => $request->firstname,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -87,10 +107,10 @@ class AdminController extends Controller
     public function lists ()
     {
 
-        $data = array(
-            'member' => Member::join('group', 'group.id', '=', 'member.id')->get(),
-            'group' => Group::all()
-        );
+
+        $data = Member::all();
+        $data = Member::select('member.*', 'group.title')->join('group', 'member.group', '=', 'group.auth')->get();
+
         return view('admin.lists')->with('info', $data);
     }
 
@@ -107,13 +127,13 @@ class AdminController extends Controller
     }
 
     // 編輯管理員
-    public function editHandle (AddMemberRequest $request)
+    public function editHandle (EditMemberRequest $request)
     {
 
         $member = Member::find($request->member_id);
 
         $member->username = $request->username;
-        $member->password = $request->password;
+        $member->password = bcrypt($request->password);
         $member->firstname = $request->firstname;
         $member->email = $request->email;
         $member->phone = $request->phone;
@@ -134,12 +154,6 @@ class AdminController extends Controller
         $member->delete();
 
         return redirect()->back();
-    }
-
-    // 群組管理頁面
-    public function groups()
-    {
-        return view('admin.group');
     }
 
     // 新增群組頁面

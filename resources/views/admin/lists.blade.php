@@ -3,7 +3,7 @@
 
     @section('content')
 
-        
+
         <table border="1">
             <tr>
                 <th>id</th>
@@ -18,22 +18,22 @@
                 <th>加入時間</th>
                 <th>編輯</th>
             </tr>
-            @foreach ($info['member'] as $infos['member'])
+            @foreach ($info as $infos)
 
                 <tr>
-                    <td>{{ $infos['member']->id }}</td>
-                    <td>{{ $infos['member']->username }}</td>
-                    <td>{{ $infos['member']->firstname }}</td>
-                    <td>{{ $infos['member']->email }}</td>
-                    <td>{{ $infos['member']->phone }}</td>
-                    <td>{{ $infos['member']->qq_id }}</td>
-                    <td>{{ $infos['member']->wechat_id }}</td>
-                    <td>{{ $infos['member']->line_id }}</td>
-                    <td>{{ $infos['member']->title }}</td>
-                    <td>{{ $infos['member']->created_at }}</td>
+                    <td>{{ $infos->id }}</td>
+                    <td>{{ $infos->username }}</td>
+                    <td>{{ $infos->firstname }}</td>
+                    <td>{{ $infos->email }}</td>
+                    <td>{{ $infos->phone }}</td>
+                    <td>{{ $infos->qq_id }}</td>
+                    <td>{{ $infos->wechat_id }}</td>
+                    <td>{{ $infos->line_id }}</td>
+                    <td>{{ $infos->title }}</td>
+                    <td>{{ $infos->created_at }}</td>
                     <td>
-                        <button type="button" onclick="location.href=' {{ url('/admin/'.$infos['member']->id.'/edit/') }} '">編輯</button>
-                        <button type="button" onclick="location.href=' {{ url('/admin/'.$infos['member']->id.'/remove/') }} '">刪除</button>
+                        <button type="button" onclick="location.href=' {{ url('/admin/'.$infos->id.'/edit/') }} '">編輯</button>
+                        <button type="button" onclick="location.href=' {{ url('/admin/'.$infos->id.'/remove/') }} '">刪除</button>
                     </td>
                 </tr>
 

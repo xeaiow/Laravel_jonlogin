@@ -26,7 +26,7 @@ class UserController extends Controller
     {
         $new = [
             'username' => $request->username,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
             'firstname' => $request->firstname,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -65,7 +65,6 @@ class UserController extends Controller
         $user = User::find($request->id);
 
         $user->username = $request->username;
-        $user->password = $request->password;
         $user->firstname = $request->firstname;
         $user->email = $request->email;
         $user->phone = $request->phone;
